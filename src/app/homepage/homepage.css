@@ -1,0 +1,386 @@
+/* ------------------------ */
+/* Card Base Layout / Feel  */
+/* ------------------------ */
+.reason-card {
+  position: relative;
+  background: #ffffff;
+  border-radius: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  cursor: pointer;
+  overflow: hidden;
+  transition: transform 0.35s ease, box-shadow 0.35s ease, background 0.35s ease;
+  animation: fadeInUp 0.8s ease forwards;
+}
+
+.reason-text {
+  transition: all 0.5s ease;
+  font-size: 0.75rem;      /* mobile text */
+  line-height: 1.2;        /* tighter spacing for mobile */
+}
+
+@media (min-width: 640px) { /* sm and above */
+  .reason-text {
+    font-size: x-large;     /* desktop */
+  }
+}
+
+
+.reason-card.revealed .reason-text {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+}
+
+/* ------------------------ */
+/* Hover (simple & smooth)  */
+/* ------------------------ */
+
+.reason-card:hover {
+  transform: translateY(-6px) scale(1.03);
+  box-shadow: 0 18px 45px rgba(255, 182, 193, 0.35);
+  background: rgba(255, 255, 255, 0.9);
+}
+
+/* Glow halo */
+.reason-card:hover::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle,
+    rgba(255, 182, 193, 0.35),
+    transparent 70%
+  );
+  opacity: 0;
+  animation: haloGlow 1s ease forwards;
+}
+
+@keyframes haloGlow {
+  0% {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+  70% {
+    opacity: 0.6;
+    transform: scale(1.1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.4);
+  }
+}
+
+/* Shine sweep */
+.reason-card:hover::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -120%;
+  width: 80%;
+  height: 100%;
+  background: linear-gradient(
+    120deg,
+    rgba(255, 255, 255, 0.1),
+    rgba(255, 255, 255, 0.4),
+    rgba(255, 255, 255, 0.1)
+  );
+  transform: skewX(-20deg);
+  animation: sweep 1s ease;
+}
+
+@keyframes sweep {
+  0% {
+    left: -120%;
+  }
+  100% {
+    left: 140%;
+  }
+}
+
+/* ------------------------ */
+/* Click Animations         */
+/* ------------------------ */
+
+.reason-card:active {
+  transform: scale(0.97);
+}
+
+.reason-card.revealed {
+  animation: clickPop 0.45s ease forwards;
+}
+
+@keyframes clickPop {
+  0% {
+    transform: scale(0.95);
+  }
+  60% {
+    transform: scale(1.04);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Click ring */
+.reason-card.revealed::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  border: 2px solid rgba(255, 182, 193, 0.6);
+  animation: ringPop 0.6s ease forwards;
+}
+
+@keyframes ringPop {
+  0% {
+    opacity: 0.8;
+    transform: scale(0.7);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.4);
+  }
+}
+
+/* ------------------------ */
+/* Entrance Animations      */
+/* ------------------------ */
+
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Click-hint fade out */
+.reason-card.revealed .click-hint {
+  opacity: 0;
+  transform: scale(0.85);
+  transition: all 0.3s ease;
+}
+
+.click-hint {
+  pointer-events: none;
+  transition: all 0.3s ease;
+  font-size: 1rem;
+}
+
+
+/* ----------------------------------------- */
+/* Masked text reveal animation (isolated)   */
+/* ----------------------------------------- */
+
+.reveal-text {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  line-height: 1.3;
+}
+
+/* White cover sliding out */
+.reveal-text::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: white;
+  transform: translateX(-101%);
+  animation: none; /* disabled until reveal */
+}
+
+/* Background matching the card */
+.reveal-text::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgb(233, 223, 223);   /* match your card background */
+  animation: none;
+  transform: translateX(0);
+}
+
+/* When card becomes revealed: start animation */
+.reason-card.revealed .reveal-text::after {
+  animation: card-text-after 1.6s cubic-bezier(.77,0,.18,1) forwards;
+}
+
+.reason-card.revealed .reveal-text::before {
+  animation: card-text-before 1.6s cubic-bezier(.77,0,.18,1) forwards;
+}
+
+/* Delays if there are multiple lines/spans */
+.reveal-text:nth-of-type(2)::before,
+.reveal-text:nth-of-type(2)::after {
+  animation-delay: 0.3s;
+}
+
+@keyframes card-text-after {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(101%); }
+}
+
+@keyframes card-text-before {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(200%); }
+}
+
+/* When the SPAN itself becomes revealed */
+.reveal-text.revealed::after {
+  animation: card-text-after 1.6s cubic-bezier(.77,0,.18,1) forwards;
+}
+
+.reveal-text.revealed::before {
+  animation: card-text-before 1.6s cubic-bezier(.77,0,.18,1) forwards;
+}
+.reveal-text.revealed {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+  transition: all 0.5s ease;
+}
+
+
+
+
+strong {
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -0.125rem;
+    left: -0.5rem;
+    right: -0.5rem;
+    height: 0.75rem;
+
+
+    z-index: -1;
+
+    background-image: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/664131/underline.svg');
+    background-repeat: no-repeat;
+
+
+    background-size: cover;
+  }
+}
+
+p > strong {
+  font-weight: 400;  
+
+  &::after {
+    bottom: -0.2rem;
+    height: 0.5rem;
+    left: -0.25rem;
+    right: -0.25rem;
+  }
+}
+
+.option-btn {
+  @apply w-full text-center px-6 py-3 font-semibold rounded-xl text-white
+    bg-gradient-to-r from-sky-400 to-sky-600
+    shadow-md transition-all duration-300 ease-out;
+}
+
+/* Hover */
+.option-btn:hover {
+  transform: translateY(-3px) scale(1.04);
+  box-shadow: 0 12px 25px rgba(56, 189, 248, 0.4); /* sky blue glow */
+  filter: brightness(1.08);
+}
+
+/* Click (active) */
+.option-btn:active {
+  transform: translateY(0px) scale(0.97);
+  box-shadow: 0 4px 10px rgba(56, 189, 248, 0.3);
+  filter: brightness(0.95);
+}
+
+/* Lower the stacking level of <strong> so reveal masks stay above */
+p strong {
+  position: relative;
+  z-index: 0; /* keep strong under reveal */
+}
+
+p strong::after {
+  z-index: -2 !important; /* keep underline behind strong */
+}
+
+
+
+.circle-sketch-highlight {
+  position: relative;
+  display: inline-block;
+  z-index: -1; /* must be above reveal mask */
+}
+
+.circle-sketch-highlight:before,
+.circle-sketch-highlight:after {
+  content: "";
+  position: absolute;
+  width: 115%;
+  height: 1.2em;
+  left: -5%;
+  top: 0.1em;
+  border-radius: 50%;
+  border: 2px solid #DDA15E;
+  opacity: 0.7;
+  pointer-events: none;
+  z-index: -1; /* behind text but ABOVE reveal mask via parent z-index */
+}
+
+.circle-sketch-highlight:before {
+  transform: rotate(3deg);
+  border-right-color: transparent;
+}
+
+.circle-sketch-highlight:after {
+  transform: rotate(-2deg);
+  border-left-color: transparent;
+  border-top-color: transparent;
+}
+
+.firework-banner {
+  width: 1420px;
+  margin-top:50px;
+  height: 700px;
+  position: relative;
+  background: #000;
+  overflow: hidden;
+  border-radius: 16px;
+}
+
+.bg-canvas,
+.fireworks-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.fireworks-canvas {
+  pointer-events: none;
+}
+.banner-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  
+  z-index: 10;
+
+  font-size: 3rem;
+  font-weight: 700;
+  color: white;
+  text-align: center;
+
+  pointer-events: none;
+  user-select: none;
+
+  text-shadow:
+    0 0 10px rgba(255,255,255,0.6),
+    0 0 25px rgba(255,200,150,0.4);
+}

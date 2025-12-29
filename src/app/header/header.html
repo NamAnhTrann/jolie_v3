@@ -1,0 +1,69 @@
+<!-- ========== HEADER ========== -->
+<header
+[ngClass]="{
+  'min-h-20 opacity-100': !isShrunk,
+  'min-h-0 opacity-0 overflow-hidden': isShrunk
+}"
+
+  class="fixed top-0 left-0 w-full z-50 backdrop-blur-lg bg-white/80 dark:bg-neutral-900/80  dark:border-neutral-700/50 transition-all duration-300 flex items-center"
+>
+  <nav
+    class="relative max-w-7xl w-full flex flex-wrap lg:grid lg:grid-cols-12 basis-full items-center px-4 md:px-6 lg:px-8 mx-auto"
+  >
+    <!-- Logo -->
+    <div class="lg:col-span-3 flex items-center">
+      <a
+        routerLink="/"
+        class="flex-none rounded-xl text-xl inline-block focus:outline-hidden focus:opacity-80"
+      >
+       ゛⸝⸝.ᐟ⋆ Jolie ᓚ₍⑅^..^₎♡
+      </a>
+    </div>
+
+    <!-- Sign-in + Mobile Toggle -->
+    <div
+      class="flex items-center gap-x-3 lg:gap-x-2 ms-auto py-1 lg:ps-6 lg:order-3 lg:col-span-3"
+    >
+      <a
+        href="https://www.youtube.com/watch?v=eiGV7jQuqH0&list=RDeiGV7jQuqH0&start_radio=1"
+        type="button"
+        class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-xl bg-sky-400 text-white hover:bg-sky-500 transition"
+      >
+        
+         Click This Last, yep, click it last. ( ˶°ㅁ°) !!
+      </a>
+
+
+    </div>
+
+<!-- Nav Links -->
+<div
+  id="hs-pro-hcail"
+  class="hs-collapse hidden overflow-hidden transition-all duration-300 
+         basis-full grow lg:block lg:w-auto lg:basis-auto lg:order-2 lg:col-span-6"
+>
+
+  <!-- MOBILE NAV (shows only on mobile) -->
+  <div
+    class="mobile-nav flex flex-col gap-y-4 mt-5 
+           lg:hidden"
+  >
+    <a href="#1" class="nav-link text-black dark:text-white">Main Hobby</a>
+    <a href="#2" class="nav-link text-black dark:text-white">My Reasons</a>
+    <a href="#3" class="nav-link text-black dark:text-white">My Apologies</a>
+    <a href="#4" class="nav-link text-black dark:text-white">My Lies</a>
+  </div>
+
+  <!-- DESKTOP SYMBOL (hidden on mobile) -->
+  <div
+    class="hidden lg:flex justify-center items-center text-xl"
+  >
+  ✦  ────୨ৎ────  Happy New Year  ────୨ৎ──── ✦
+  </div>
+
+</div>
+
+  </nav>
+</header>
+<!-- ========== END HEADER ========== -->
+    

@@ -1,1 +1,74 @@
-/* You can add global styles to this file, and also import other style files */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,body {
+  scroll-behavior: smooth;
+  font-family: "Playfair Display", serif;
+  /* overflow: hidden; */
+}
+.realistic-marker-highlight {
+  position: relative;
+  display: inline-block;
+  z-index: -1;
+}
+
+/* Card 1 - Pink */
+.highlight-pink::before {
+  content: "";
+  position: absolute;
+  left: -0.25em;
+  top: 0.1em;
+  width: calc(100% + 0.5em);
+  height: 1em;
+  background-color: #ebc4d7;
+  z-index: -1;
+  filter: url(#marker-shape);
+  padding: 0 0.25em;
+}
+
+/* Card 2 - Blue */
+.highlight-blue::before {
+  content: "";
+  position: absolute;
+  left: -0.25em;
+  top: 0.1em;
+  width: calc(100% + 0.5em);
+  height: 1em;
+  background-color: #abdcff;
+  z-index: -1;
+  filter: url(#marker-shape);
+  padding: 0 0.25em;
+}
+
+/* Card 3 - Purple */
+.highlight-purple::before {
+  content: "";
+  position: absolute;
+  left: -0.25em;
+  top: 0.1em;
+  width: calc(100% + 0.5em);
+  height: 1em;
+  background-color: #f5e2ca;
+  z-index: -1;
+  filter: url(#marker-shape);
+  padding: 0 0.25em;
+}
+
+/* Reveal animation compatibility */
+.reason-card.revealed .realistic-marker-highlight::before {
+  animation: card-text-before 1.6s cubic-bezier(.77,0,.18,1) forwards;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
