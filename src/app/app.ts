@@ -1,31 +1,30 @@
 import { Component, HostListener, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { Header } from "./header/header";
-import 'preline/preline';
+import { Header } from './header/header';
 import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-root',
   imports: [RouterOutlet, Header],
   templateUrl: './app.html',
-  styleUrl: './app.css'
+  styleUrl: './app.css',
 })
 export class App {
   protected readonly title = signal('jolie');
+
   isMenuOpen = false;
-  private hasUnlockedAudio = false;
-
-
-  currentSong = signal('');
+  isMusicOn = signal(false);
+  isCollapsed = signal(false);
   isEasterEgg = signal(false);
 
+  private hasUnlockedAudio = false;
+
   public audio = new Audio();
-  private i = 0;
+  private index = 0;
 
-  isCollapsed = signal(false);
-  isMusicOn = signal(false);
+  currentSong = signal('');
 
-  private currentPlaylist: string[] = [
+  private playlist: string[] = [
     'songs/banana milk.mp3',
     'songs/fragility.mp3',
     'songs/willow.mp3',
@@ -35,94 +34,92 @@ export class App {
     'songs/and still, the sky waited.mp3',
   ];
 
-  toggleMenu() {
-    this.isMenuOpen = !this.isMenuOpen;
+  ngOnInit() {
+    this.audio.preload = 'auto';
+    this.audio.volume = 0.3;
+    this.audio.loop = false;
+
+    this.setPlaylist(this.playlist);
+
+    this.audio.addEventListener('ended', () => {
+      this.next();
+    });
+
+    this.showWelcomePopup();
   }
 
-  closeMenu() {
-    this.isMenuOpen = false;
+  /* ===============================
+     GLOBAL USER INTERACTION UNLOCK
+     =============================== */
+  @HostListener('document:click')
+  handleFirstInteraction() {
+    if (!this.hasUnlockedAudio) {
+      this.unlockMusic();
+    }
   }
-  @HostListener('document:click', ['$event'])
 
-
-  showPlayHint = signal(false);
-
-ngOnInit(): void {
-  this.audio.preload = 'auto';
-  this.audio.loop = false;
-  this.audio.volume = 0.3;
-
-  this.setPlaylist(this.currentPlaylist);
-
-  this.audio.addEventListener('ended', () => {
-    this.next();
-  });
-
-  // Unlock audio on FIRST user interaction anywhere
-  document.addEventListener(
-    'click',
-    () => {
-      if (!this.hasUnlockedAudio) {
-        this.unlockMusic();
-      }
-    },
-    { once: true }
-  );
-
-  this.showWelcomePopup();
-}
-
+  /* ===============================
+     AUDIO CORE
+     =============================== */
 
   private setPlaylist(list: string[]) {
     if (!list.length) return;
-    this.currentPlaylist = list;
-    this.load(this.i);
+    this.playlist = list;
+    this.load(0);
   }
 
   private load(index: number) {
-    if (!this.currentPlaylist?.length) return;
+    this.index =
+      (index + this.playlist.length) % this.playlist.length;
 
-    this.i =
-      ((index % this.currentPlaylist.length) + this.currentPlaylist.length) %
-      this.currentPlaylist.length;
+    this.audio.src = this.playlist[this.index];
 
-    this.audio.src = this.currentPlaylist[this.i]; // ONLY SET SOURCE
-
-    const raw = this.currentPlaylist[this.i].split('/').pop() ?? '';
-    this.currentSong.set(raw.replace(/\.[^/.]+$/, ''));
-  }
-
-  private next() {
-    if (!this.currentPlaylist.length) return;
-    this.load(this.i + 1);
-    this.play();
+    const name = this.playlist[this.index].split('/').pop() ?? '';
+    this.currentSong.set(name.replace(/\.[^/.]+$/, ''));
   }
 
   private async play() {
     try {
       await this.audio.play();
+      this.isMusicOn.set(true);
     } catch {
-      this.showPlayHint.set(true);
+      // browser still blocking until gesture
     }
   }
 
-  public pause() {
+  private next() {
+    this.load(this.index + 1);
+    this.play();
+  }
+
+  pause() {
     this.audio.pause();
     this.isMusicOn.set(false);
   }
 
-  public resume() {
-    this.play();
-    this.isMusicOn.set(true);
+  resume() {
+    this.unlockMusic();
   }
 
-  public toggleMusic() {
-    if (this.isMusicOn()) {
-      this.pause();
-    } else {
-      this.resume();
-    }
+  toggleMusic() {
+    this.isMusicOn() ? this.pause() : this.resume();
   }
+
+  private unlockMusic() {
+    if (this.hasUnlockedAudio) return;
+
+    this.audio
+      .play()
+      .then(() => {
+        this.hasUnlockedAudio = true;
+        this.isMusicOn.set(true);
+      })
+      .catch(() => {});
+  }
+
+  /* ===============================
+     POPUP
+     =============================== */
 
   showWelcomePopup() {
     Swal.fire({
@@ -130,33 +127,21 @@ ngOnInit(): void {
       width: '32rem',
       padding: '1.5rem',
       background: 'rgba(0,0,0,1)',
-      color: '#ffffffff',
+      color: '#ffffff',
       confirmButtonText: 'Continue',
-      confirmButtonColor: '#444141ff',
+      confirmButtonColor: '#444141',
       allowOutsideClick: true,
       allowEscapeKey: true,
-    }).then((res) => {
-        if (res.isConfirmed) {
-        // User DISMISSED popup 1 (close, outside click, esc) -> play music
-        this.unlockMusic();
-      }
+    }).then(() => {
+      this.unlockMusic();
     });
   }
 
+  toggleMenu() {
+    this.isMenuOpen = !this.isMenuOpen;
+  }
 
-
-private unlockMusic() {
-  this.audio
-    .play()
-    .then(() => {
-      this.isMusicOn.set(true);
-      this.hasUnlockedAudio = true;
-    })
-    .catch(() => {
-      // autoplay still blocked until user interacts again
-    });
+  closeMenu() {
+    this.isMenuOpen = false;
+  }
 }
-
-}
-
-
