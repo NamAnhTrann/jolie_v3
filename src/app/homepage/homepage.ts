@@ -4,6 +4,8 @@ import {
   ViewChild,
   ElementRef,
   CUSTOM_ELEMENTS_SCHEMA,
+  EventEmitter,
+  Output,
 } from '@angular/core';
 
 @Component({
@@ -17,6 +19,8 @@ export class Homepage implements AfterViewInit {
   bgCanvas!: ElementRef<HTMLCanvasElement>;
 
   private bgCtx!: CanvasRenderingContext2D;
+    @Output() videoPlay = new EventEmitter<void>();
+  @Output() videoPause = new EventEmitter<void>();
 
   private width = 0;
   private height = 0;
@@ -275,6 +279,22 @@ private launchRocket() {
 
     return points;
   }
+  toggleVideo(video: HTMLVideoElement, overlay: HTMLElement): void {
+    if (video.paused) {
+      video.play();
+      overlay.style.opacity = '0';
+      overlay.style.pointerEvents = 'none';
+
+      this.videoPlay.emit();
+    } else {
+      video.pause();
+      overlay.style.opacity = '1';
+      overlay.style.pointerEvents = 'auto';
+
+      this.videoPause.emit();
+    }
+  }
+
 
   /* ================= MAIN LOOP ================= */
 

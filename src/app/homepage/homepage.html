@@ -1621,46 +1621,97 @@
     navigation="true"
     class="w-[90%] h-screen flex items-center justify-center [--swiper-navigation-size:0px] md:[--swiper-navigation-size:22px]"
   >
-    <swiper-slide class="flex items-center justify-center"> </swiper-slide>
-<swiper-slide class="flex items-center justify-center px-6">
+    <swiper-slide class="flex items-center justify-center">
+      <div class="max-w-xl text-center space-y-4 text-gray-600 leading-relaxed">
+        <h1 class="text-black text-2xl md:text-3xl font-medium text-gray-700">
+          So uhm, this section is, ... embarassing.. to the very max... but..
+        </h1>
+      </div>
+    </swiper-slide>
+    <swiper-slide class="flex items-center justify-center">
+      <div class="max-w-xl text-center space-y-4 text-gray-600 leading-relaxed">
+        <h1 class="text-black text-2xl md:text-3xl font-medium text-gray-700">
+          I guess, since I couldn't put much effort into this due to time
+          constraint. So, I wanted to do something quick...
+        </h1>
+      </div>
+    </swiper-slide>
+
+    <swiper-slide class="flex items-center justify-center">
+      <div class="max-w-xl text-center space-y-4 text-gray-600 leading-relaxed">
+        <h1 class="text-black text-2xl md:text-3xl font-medium text-gray-700">
+          Next slide ---->>>
+        </h1>
+      </div>
+    </swiper-slide>
+<swiper-slide class="flex items-center justify-center">
   <div
-    class="max-w-xl text-center space-y-4 text-gray-600 leading-relaxed"
+    class="relative max-w-xl w-full cursor-pointer"
+    (click)="toggleVideo(video, overlay); $event.stopPropagation()"
   >
-    <h1 class="text-2xl md:text-3xl font-medium text-gray-700">
-      So that's all for this "Attempt 2", I hope you got to the end and I hope it didn't bore you...
-    </h1>
+    <video
+      #video
+      class="w-full rounded-xl shadow-lg"
+      src="/assets/this-small.mp4"
+      muted
+      loop
+      playsinline
+    ></video>
 
-    <p>
-      That was a lot to take in, i'm sorry if it were to be a bit long...
-    </p>
-
-    <p>
-      Normally I'd style it so that its shorter and more concise, at the same time keeping the original feel intact.
-    </p>
-
-    <p>
-      But I had limited time, and I wanted to finish it before 00:00 1st Jan sooo yeaaaa, sorry again if its too long haha
-    </p>
+    <div
+      #overlay
+      class="absolute inset-0 bg-black/50 flex items-center justify-center rounded-xl transition-opacity duration-300"
+    >
+      <span class="text-white text-lg font-medium">Click to play</span>
+    </div>
   </div>
 </swiper-slide>
-<swiper-slide class="flex items-center justify-center px-6">
-<div class="flex flex-col items-center justify-center text-center max-w-xl space-y-6 text-gray-600 leading-relaxed">
-  <h1 class="text-2xl md:text-3xl font-medium text-gray-700">
-    So, see you again, Jolie ( ˶ˆᗜˆ˵ ) <br />
-    Hope that one day I'll get to see you again, somewhere, somehow. <br />
-    Until then, take care, I wish you the best! <br />
-    And do always remember to smile! <br>
-    ≽(•⩊ •マ≼
-  </h1>
 
-  <img
-    src="assets/cinna-unscreen.gif"
-    alt="Cinnamoroll"
-    class="w-48 h-auto mx-auto"
-  />
-</div>
 
-</swiper-slide>
 
+
+
+    <swiper-slide class="flex items-center justify-center px-6">
+      <div class="max-w-xl text-center space-y-4 text-gray-600 leading-relaxed">
+        <h1 class="text-2xl md:text-3xl font-medium text-gray-700">
+          So that's all for this "Attempt 2", I hope you got to the end and I
+          hope it didn't bore you...
+        </h1>
+
+        <p>
+          That was a lot to take in, i'm sorry if it were to be a bit long...
+        </p>
+
+        <p>
+          Normally I'd style it so that its shorter and more concise, at the
+          same time keeping the original feel intact.
+        </p>
+
+        <p>
+          But I had limited time, and I wanted to finish it before 00:00 1st Jan
+          sooo yeaaaa, sorry again if its too long haha
+        </p>
+      </div>
+    </swiper-slide>
+    <swiper-slide class="flex items-center justify-center px-6">
+      <div
+        class="flex flex-col items-center justify-center text-center max-w-xl space-y-6 text-gray-600 leading-relaxed"
+      >
+        <h1 class="text-2xl md:text-3xl font-medium text-gray-700">
+          So, see you again, Jolie ( ˶ˆᗜˆ˵ ) <br />
+          Hope that one day I'll get to see you again, somewhere, somehow.
+          <br />
+          Until then, take care, I wish you the best! <br />
+          And do always remember to smile! <br />
+          ≽(•⩊ •マ≼
+        </h1>
+
+        <img
+          src="assets/cinna-unscreen.gif"
+          alt="Cinnamoroll"
+          class="w-48 h-auto mx-auto"
+        />
+      </div>
+    </swiper-slide>
   </swiper-container>
 </section>

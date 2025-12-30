@@ -28,8 +28,8 @@ export class App {
     'songs/banana milk.mp3',
     'songs/fragility.mp3',
     'songs/willow.mp3',
-    'songs/Watashino Uso.mp3',
     'songs/Chainsaw Man The Movie_ Reze Arc  OST -  04 - first glance.mp3',
+    'songs/Watashino Uso.mp3',
     'songs/between words.mp3',
     'songs/and still, the sky waited.mp3',
   ];
@@ -69,8 +69,7 @@ export class App {
   }
 
   private load(index: number) {
-    this.index =
-      (index + this.playlist.length) % this.playlist.length;
+    this.index = (index + this.playlist.length) % this.playlist.length;
 
     this.audio.src = this.playlist[this.index];
 
@@ -91,6 +90,14 @@ export class App {
     this.load(this.index + 1);
     this.play();
   }
+  lowerMusicVolume() {
+  this.audio.volume = 0.08;
+}
+
+restoreMusicVolume() {
+  this.audio.volume = 0.3;
+}
+
 
   pause() {
     this.audio.pause();
@@ -120,6 +127,22 @@ export class App {
   /* ===============================
      POPUP
      =============================== */
+onRouteActivate(component: any) {
+  // only hook homepage
+  if (component?.videoPlay && component?.videoPause) {
+    component.videoPlay.subscribe(() => this.onVideoPlay());
+    component.videoPause.subscribe(() => this.onVideoPause());
+  }
+}
+
+onVideoPlay() {
+  this.audio.pause();
+  this.isMusicOn.set(false);
+}
+
+onVideoPause() {
+  this.unlockMusic();
+}
 
   showWelcomePopup() {
     Swal.fire({
