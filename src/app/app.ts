@@ -26,13 +26,13 @@ export class App {
   isMusicOn = signal(false);
 
   private currentPlaylist: string[] = [
-    'songs/do flowers bloom where you walk_.mp3',
-    'songs/forward.mp3',
-    'songs/and still, the sky waited.mp3',
-    'songs/sora.wav - best part (ft. chevy).mp3',
-    'songs/Bruno Major - Nothing (Lyric & Chord Video).mp3',
-
+    'songs/banana milk.mp3',
+    'songs/fragility.mp3',
+    'songs/willow.mp3',
     'songs/Watashino Uso.mp3',
+    'songs/Chainsaw Man The Movie_ Reze Arc  OST -  04 - first glance.mp3',
+    'songs/between words.mp3',
+    'songs/and still, the sky waited.mp3',
   ];
 
   toggleMenu() {
@@ -43,20 +43,9 @@ export class App {
     this.isMenuOpen = false;
   }
   @HostListener('document:click', ['$event'])
-  onDocumentClick(event: MouseEvent) {
-    const menu = document.getElementById('options-menu');
-    const button = document.getElementById('options-menu-button');
 
-    if (
-      !menu?.contains(event.target as Node) &&
-      !button?.contains(event.target as Node)
-    ) {
-      this.isMenuOpen = false;
-    }
-  }
 
   showPlayHint = signal(false);
-  private firstClickListenerAdded = false;
 
 ngOnInit(): void {
   this.audio.preload = 'auto';
@@ -83,13 +72,6 @@ ngOnInit(): void {
   this.showWelcomePopup();
 }
 
-
-  private handleFirstClick = () => {
-    // Just unlock audio; do NOT restart the song
-    this.audio.play().then(() => {
-      this.isMusicOn.set(true);
-    });
-  };
 
   private setPlaylist(list: string[]) {
     if (!list.length) return;
